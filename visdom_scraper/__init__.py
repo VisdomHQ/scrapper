@@ -7,3 +7,4 @@ __version__ = "0.1.0"
 from .main import WebsiteScraperApp
 from .scraper import WebsiteScraper
 from .converter import MarkdownConverter
+from .daemon import ScraperDaemon, LogTailer

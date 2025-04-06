@@ -3,10 +3,17 @@ Command-line interface for the website scraper.
 """
 
 import sys
+import time
 import click
 from .main import WebsiteScraperApp
+from .daemon import ScraperDaemon, LogTailer
 
-@click.command()
+@click.group()
+def cli():
+    """Visdom Scraper - A tool to scrape websites and convert them to markdown."""
+    pass
+
+@cli.command(name="scrape")
 @click.option('--input', '-i', help='File containing URLs to scrape (one per line)')
 @click.option('--output', '-o', default='scraped_data', help='Directory to save the scraped data')
 @click.option('--dynamic', '-d', is_flag=True, help='Use dynamic scraping (for JavaScript-rendered content)')
@@ -15,21 +22,32 @@ from .main import WebsiteScraperApp
 @click.option('--site-workers', '-s', default=10, type=int, help='Maximum number of concurrent workers per site')
 @click.option('--rate', '-r', default=1.0, type=float, help='Rate limit in seconds between requests')
 @click.option('--max-sites', '-m', default=2, type=int, help='Maximum number of sites to process in parallel')
-@click.option('--max-pages', '-p', default=100, type=int, help='Maximum pages per site (0 for unlimited)')
+@click.option('--max-pages', '-p', default=0, type=int, help='Maximum pages per site (0 for unlimited)')
 @click.option('--log', '-l', help='Path to the log file')
+@click.option('--daemon', is_flag=True, help='Run the scraper in the background')
+@click.option('--job-id', hidden=True, help='Internal: Job ID for the daemon process')
 @click.argument('urls', nargs=-1)
-def main(input, output, dynamic, no_files, workers, site_workers, rate, max_sites, max_pages, log, urls):
+def scrape(input, output, dynamic, no_files, workers, site_workers, rate, max_sites, max_pages, log, daemon, job_id, urls):
     """
     Scrape websites and convert them to markdown.
     
     You can provide URLs directly as arguments or in a file (one per line).
-    All website resources and files will be scraped and downloaded by default.
+    Document files (PDF, DOCX, etc.) will be automatically downloaded.
     
-    Example: visdom-scraper https://example.com https://home.gov.rw
+    Example: visdom-scraper scrape https://example.com https://home.gov.rw
     """
     if not urls and not input:
         click.echo("Error: No URLs provided. Use --input to specify a file or pass URLs as arguments.")
         return 1
+    
+    # If daemon flag is set, start a background process
+    if daemon:
+        daemon_mgr = ScraperDaemon()
+        job_id = daemon_mgr.start_job(sys.argv[1:])  # Pass all arguments
+        click.echo(f"Started background job with ID: {job_id}")
+        click.echo(f"You can check the status with: visdom-scraper job-status {job_id}")
+        click.echo(f"You can view logs with: visdom-scraper tail-log {job_id}")
+        return 0
         
     app = WebsiteScraperApp(
         urls=list(urls),
@@ -64,6 +82,103 @@ def main(input, output, dynamic, no_files, workers, site_workers, rate, max_site
     
     click.echo(f"\nOutput saved to: {output}")
     return 0
+
+@cli.command(name="jobs")
+def list_jobs():
+    """List all scraper jobs and their status."""
+    daemon_mgr = ScraperDaemon()
+    jobs = daemon_mgr.list_jobs()
+    
+    if not jobs:
+        click.echo("No jobs found.")
+        return
+    
+    # Print header
+    click.echo(f"{'JOB ID':<16} {'STATUS':<12} {'START TIME':<24}")
+    click.echo("-" * 52)
+    
+    # Print job details
+    for job in jobs:
+        job_id = job["job_id"]
+        status = job["status"]
+        start_time = job["start_time"].split(".")[0].replace("T", " ")  # Format datetime
+        
+        click.echo(f"{job_id:<16} {status:<12} {start_time:<24}")
+
+@cli.command(name="job-status")
+@click.argument('job_id')
+def job_status(job_id):
+    """Check the status of a specific job."""
+    daemon_mgr = ScraperDaemon()
+    job = daemon_mgr.get_job(job_id)
+    
+    if not job:
+        click.echo(f"Job {job_id} not found.")
+        return 1
+    
+    click.echo(f"Job ID: {job['job_id']}")
+    click.echo(f"Status: {job['status']}")
+    click.echo(f"Started: {job['start_time'].split('.')[0].replace('T', ' ')}")
+    click.echo(f"Log file: {job['log_file']}")
+    click.echo(f"Command: {' '.join(job['cmd_args'])}")
+    
+    return 0
+
+@cli.command(name="stop-job")
+@click.argument('job_id')
+def stop_job(job_id):
+    """Stop a running job."""
+    daemon_mgr = ScraperDaemon()
+    if daemon_mgr.stop_job(job_id):
+        click.echo(f"Job {job_id} has been stopped.")
+    else:
+        click.echo(f"Job {job_id} is not running or not found.")
+        return 1
+    
+    return 0
+
+@cli.command(name="tail-log")
+@click.argument('job_id_or_file')
+@click.option('--lines', '-n', default=10, help='Number of lines to show initially')
+@click.option('--follow', '-f', is_flag=True, help='Follow the log file (like tail -f)')
+def tail_log(job_id_or_file, lines, follow):
+    """
+    Display the log file for a job or any log file.
+    
+    You can specify a job ID or a direct path to a log file.
+    """
+    # Check if it's a job ID first
+    daemon_mgr = ScraperDaemon()
+    job = daemon_mgr.get_job(job_id_or_file)
+    
+    if job:
+        log_file = job["log_file"]
+    else:
+        # Treat it as a direct file path
+        log_file = job_id_or_file
+    
+    # Create the log tailer
+    tailer = LogTailer(log_file, lines)
+    
+    # Display the log
+    if follow:
+        click.echo(f"Tailing log file: {log_file} (Press Ctrl+C to stop)")
+        for line in tailer.tail_log(follow=True):
+            click.echo(line.rstrip())
+    else:
+        for line in tailer.read_last_lines():
+            click.echo(line.rstrip())
+    
+    return 0
+
+def main():
+    """Main entry point for the CLI."""
+    # Check if we're running the old-style command
+    if len(sys.argv) > 1 and not sys.argv[1].startswith("-") and not sys.argv[1] in ["scrape", "jobs", "job-status", "stop-job", "tail-log"]:
+        # Convert to new style command
+        sys.argv.insert(1, "scrape")
+    
+    return cli(standalone_mode=False)
 
 if __name__ == "__main__":
     sys.exit(main())
