@@ -173,12 +173,24 @@ def tail_log(job_id_or_file, lines, follow):
 
 def main():
     """Main entry point for the CLI."""
-    # Check if we're running the old-style command
-    if len(sys.argv) > 1 and not sys.argv[1].startswith("-") and not sys.argv[1] in ["scrape", "jobs", "job-status", "stop-job", "tail-log"]:
-        # Convert to new style command
+    # Handle both old-style (direct options) and new-style (with subcommands) invocations
+    
+    # Check if the first argument is one of our known subcommands
+    known_commands = ["scrape", "jobs", "job-status", "stop-job", "tail-log"]
+    
+    # If no arguments or first arg is an option/URL (not a subcommand), 
+    # insert the "scrape" command
+    if len(sys.argv) <= 1 or (
+        len(sys.argv) > 1 and 
+        sys.argv[1] not in known_commands
+    ):
         sys.argv.insert(1, "scrape")
     
-    return cli(standalone_mode=False)
+    try:
+        return cli(standalone_mode=False)
+    except Exception as e:
+        click.echo(f"Error: {str(e)}", err=True)
+        return 1
 
 if __name__ == "__main__":
     sys.exit(main())
