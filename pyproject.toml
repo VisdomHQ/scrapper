@@ -18,6 +18,7 @@ python-slugify = "^8.0.1"
 colorlog = "^6.7.0"
 html2text = "^2020.1.16"
 markitdown = "^0.1.1"        # Added markitdown as a direct dependency
+aiohttp = "^3.9.1"           # Added for RAG upload functionality
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.4.3"

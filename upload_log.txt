@@ -1,0 +1,78 @@
+2025-04-07 16:49:26,707 - INFO - Found 222 files to process
+2025-04-07 16:49:26,713 - INFO - Skipping image file: scraped_data/demobrwanda.gov.rw/files/pdf.png
+2025-04-07 16:49:26,713 - INFO - Skipping image file: scraped_data/ncpd.gov.rw/files/pdf.png
+2025-04-07 16:49:26,713 - WARNING - Unsupported file type: scraped_data/www.ralga.rw/files/other-local-government-documents_1
+2025-04-07 16:49:26,713 - WARNING - Unsupported file type: scraped_data/www.ralga.rw/files/other-local-government-documents
+2025-04-07 16:49:35,094 - INFO - Successfully uploaded scraped_data/demobrwanda.gov.rw/announcement.md
+2025-04-07 16:49:35,424 - INFO - Successfully uploaded scraped_data/demobrwanda.gov.rw/publications/service-charter.md
+2025-04-07 16:49:35,525 - INFO - Successfully uploaded scraped_data/demobrwanda.gov.rw/mandate.md
+2025-04-07 16:49:35,767 - INFO - Successfully uploaded scraped_data/demobrwanda.gov.rw/index.md
+2025-04-07 16:49:36,818 - INFO - Successfully uploaded scraped_data/demobrwanda.gov.rw/publications/reports-studies.md
+2025-04-07 16:49:36,820 - INFO - Successfully uploaded scraped_data/demobrwanda.gov.rw/publications/policies.md
+2025-04-07 16:49:38,939 - INFO - Successfully uploaded scraped_data/demobrwanda.gov.rw/about/management.md
+2025-04-07 16:49:38,941 - INFO - Successfully uploaded scraped_data/demobrwanda.gov.rw/publications/organizational-structure.md
+2025-04-07 16:49:38,943 - INFO - Successfully uploaded scraped_data/demobrwanda.gov.rw/home.md
+2025-04-07 16:49:40,922 - INFO - Successfully uploaded scraped_data/demobrwanda.gov.rw/about/best-employee.md
+2025-04-07 16:49:41,059 - INFO - Successfully uploaded scraped_data/demobrwanda.gov.rw/about/overview.md
+2025-04-07 17:05:07,899 - INFO - Found 222 total files
+2025-04-07 17:05:07,900 - INFO - Already uploaded: 0 files
+2025-04-07 17:05:07,900 - INFO - New files to upload: 222 files
+2025-04-07 17:05:07,905 - INFO - Skipping image file: scraped_data/demobrwanda.gov.rw/files/pdf.png
+2025-04-07 17:05:07,905 - INFO - Skipping image file: scraped_data/ncpd.gov.rw/files/pdf.png
+2025-04-07 17:05:07,905 - WARNING - Unsupported file type: scraped_data/www.ralga.rw/files/other-local-government-documents_1
+2025-04-07 17:05:07,905 - WARNING - Unsupported file type: scraped_data/www.ralga.rw/files/other-local-government-documents
+2025-04-07 17:05:11,374 - INFO - Successfully uploaded scraped_data/demobrwanda.gov.rw/index.md
+2025-04-07 17:05:11,375 - INFO - Successfully uploaded scraped_data/demobrwanda.gov.rw/home.md
+2025-04-07 17:05:11,375 - INFO - Successfully uploaded scraped_data/demobrwanda.gov.rw/mandate.md
+2025-04-07 17:05:11,380 - INFO - Successfully uploaded scraped_data/demobrwanda.gov.rw/announcement.md
+2025-04-07 17:05:11,380 - INFO - Successfully uploaded scraped_data/demobrwanda.gov.rw/publications/service-charter.md
+2025-04-07 17:05:11,924 - INFO - Successfully uploaded scraped_data/demobrwanda.gov.rw/publications/reports-studies.md
+2025-04-07 17:05:12,696 - INFO - Successfully uploaded scraped_data/demobrwanda.gov.rw/about/management.md
+2025-04-07 17:05:12,698 - INFO - Successfully uploaded scraped_data/demobrwanda.gov.rw/about/overview.md
+2025-04-07 17:05:12,698 - INFO - Successfully uploaded scraped_data/demobrwanda.gov.rw/publications/organizational-structure.md
+2025-04-07 17:05:12,800 - INFO - Successfully uploaded scraped_data/demobrwanda.gov.rw/publications/policies.md
+2025-04-07 17:05:12,801 - INFO - Successfully uploaded scraped_data/demobrwanda.gov.rw/about/best-employee.md
+2025-04-07 17:05:13,526 - INFO - Successfully uploaded scraped_data/demobrwanda.gov.rw/news-detail/mutobo-technical-secondary-school-empowering-through-skills.md
+2025-04-07 17:05:13,528 - INFO - Successfully uploaded scraped_data/demobrwanda.gov.rw/updates/newsletter-magazine.md
+2025-04-07 17:05:13,528 - INFO - Successfully uploaded scraped_data/demobrwanda.gov.rw/news-detail/rdrc-chairperson-concludes-a-four-day-strategic-planning-workshop-in-musanze.md
+2025-04-07 17:05:13,535 - INFO - Successfully uploaded scraped_data/demobrwanda.gov.rw/updates/news.md
+2025-04-07 17:05:13,668 - INFO - Successfully uploaded scraped_data/demobrwanda.gov.rw/news-detail/jica-and-rdrc-empower-female-ex-combatants-and-spouses-of-ex-combatants-with-sewing-skills.md
+2025-04-07 17:05:15,659 - INFO - Successfully uploaded scraped_data/demobrwanda.gov.rw/news-detail/un-security-sanctions-committee-delegation-visits-mutobo-demobilisation-centre.md
+2025-04-07 17:05:15,914 - INFO - Successfully uploaded scraped_data/demobrwanda.gov.rw/news-detail/rdrc-receives-mobility-equipment-for-disabled-ex-combatants.md
+2025-04-07 17:05:16,429 - INFO - Successfully uploaded scraped_data/demobrwanda.gov.rw/news-detail/mutobo-young-graduates-called-to-harness-rwandas-opportunities.md
+2025-04-07 17:05:16,429 - INFO - Successfully uploaded scraped_data/demobrwanda.gov.rw/news-detail/how-munyeragwe-pursued-tvet-at-50-and-found-success.md
+2025-04-07 17:05:16,586 - INFO - Successfully uploaded scraped_data/demobrwanda.gov.rw/news-detail/how-a-former-fdlr-combatant-found-hope-in-rwanda.md
+2025-04-07 17:05:17,974 - INFO - Successfully uploaded scraped_data/ncpd.gov.rw/index.md
+2025-04-07 17:05:18,637 - INFO - Successfully uploaded scraped_data/demobrwanda.gov.rw/news-detail/itangazo-announcement.md
+2025-04-07 17:05:18,638 - INFO - Successfully uploaded scraped_data/demobrwanda.gov.rw/news-detail/rdrc-officially-discharges-47-ex-combatants.md
+2025-04-07 17:05:19,216 - INFO - Successfully uploaded scraped_data/ncpd.gov.rw/services.md
+2025-04-07 17:05:19,274 - INFO - Successfully uploaded scraped_data/ncpd.gov.rw/11/service-offered-by-ncpd.md
+2025-04-07 17:05:19,913 - INFO - Successfully uploaded scraped_data/ncpd.gov.rw/11/mainstreaming-and-inclusion-of-persons-with-disabilities.md
+2025-04-07 17:05:20,339 - INFO - Successfully uploaded scraped_data/ncpd.gov.rw/about/overview.md
+2025-04-07 17:05:20,429 - INFO - Successfully uploaded scraped_data/ncpd.gov.rw/updates/news.md
+2025-04-07 17:05:20,604 - INFO - Successfully uploaded scraped_data/ncpd.gov.rw/about/divisions-and-units.md
+2025-04-07 17:05:20,964 - INFO - Successfully uploaded scraped_data/ncpd.gov.rw/11/publications.md
+2025-04-07 17:05:20,971 - INFO - Successfully uploaded scraped_data/ncpd.gov.rw/11/persons-with-disabilities-overview.md
+2025-04-07 17:25:05,644 - INFO - Found 222 total files
+2025-04-07 17:25:05,645 - INFO - Already uploaded: 0 files
+2025-04-07 17:25:05,645 - INFO - New files to upload: 222 files
+2025-04-07 17:25:05,650 - INFO - Skipping image file: scraped_data/demobrwanda.gov.rw/files/pdf.png
+2025-04-07 17:25:05,650 - INFO - Skipping image file: scraped_data/ncpd.gov.rw/files/pdf.png
+2025-04-07 17:25:05,651 - WARNING - Unsupported file type: scraped_data/www.ralga.rw/files/other-local-government-documents_1
+2025-04-07 17:25:05,651 - WARNING - Unsupported file type: scraped_data/www.ralga.rw/files/other-local-government-documents
+2025-04-07 17:25:10,051 - INFO - Successfully uploaded scraped_data/demobrwanda.gov.rw/index.md
+2025-04-07 17:25:10,054 - INFO - Successfully uploaded scraped_data/demobrwanda.gov.rw/home.md
+2025-04-07 17:25:10,054 - INFO - Successfully uploaded scraped_data/demobrwanda.gov.rw/publications/service-charter.md
+2025-04-07 17:25:10,056 - INFO - Successfully uploaded scraped_data/demobrwanda.gov.rw/mandate.md
+2025-04-07 17:25:10,056 - INFO - Successfully uploaded scraped_data/demobrwanda.gov.rw/announcement.md
+2025-04-07 17:25:12,499 - INFO - Successfully uploaded scraped_data/demobrwanda.gov.rw/about/overview.md
+2025-04-07 17:25:12,500 - INFO - Successfully uploaded scraped_data/demobrwanda.gov.rw/publications/policies.md
+2025-04-07 17:25:12,500 - INFO - Successfully uploaded scraped_data/demobrwanda.gov.rw/about/management.md
+2025-04-07 17:25:12,501 - INFO - Successfully uploaded scraped_data/demobrwanda.gov.rw/publications/reports-studies.md
+2025-04-07 17:25:12,501 - INFO - Successfully uploaded scraped_data/demobrwanda.gov.rw/publications/organizational-structure.md
+2025-04-07 17:25:13,065 - INFO - Successfully uploaded scraped_data/demobrwanda.gov.rw/news-detail/rdrc-chairperson-concludes-a-four-day-strategic-planning-workshop-in-musanze.md
+2025-04-07 17:25:13,995 - INFO - Successfully uploaded scraped_data/demobrwanda.gov.rw/about/best-employee.md
+2025-04-07 17:25:13,999 - INFO - Successfully uploaded scraped_data/demobrwanda.gov.rw/updates/newsletter-magazine.md
+2025-04-07 17:25:14,001 - INFO - Successfully uploaded scraped_data/demobrwanda.gov.rw/news-detail/mutobo-technical-secondary-school-empowering-through-skills.md
+2025-04-07 17:25:14,001 - INFO - Successfully uploaded scraped_data/demobrwanda.gov.rw/updates/news.md
+2025-04-07 17:25:14,392 - INFO - Successfully uploaded scraped_data/demobrwanda.gov.rw/news-detail/jica-and-rdrc-empower-female-ex-combatants-and-spouses-of-ex-combatants-with-sewing-skills.md

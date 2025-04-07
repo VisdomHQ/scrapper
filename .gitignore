@@ -27,4 +27,4 @@ ENV/
 .ipynb_checkpoints
 
 # ignore scrapped data
-scrapped_data/
+scraped_data/
