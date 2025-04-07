@@ -5,6 +5,7 @@ import aiohttp  # Make sure to install with: poetry add aiohttp
 import logging
 import json
 import fcntl  # For file locking
+import time
 from datetime import datetime
 
 # Configure logging
@@ -44,12 +45,45 @@ SUPPORTED_EXTENSIONS = {
 # Skip file extensions (lowercase)
 SKIP_EXTENSIONS = {'.png', '.jpg', '.jpeg', '.gif', '.bmp', '.svg', '.ico', '.webp'}
 
+def validate_upload_history(history):
+    """Validate the upload history structure and contents."""
+    if not isinstance(history, dict):
+        logging.warning("Invalid history format: not a dictionary")
+        return False
+        
+    # Check required keys
+    required_keys = ["version", "last_run_timestamp", "uploaded_files"]
+    for key in required_keys:
+        if key not in history:
+            logging.warning(f"Invalid history format: missing '{key}' field")
+            return False
+    
+    # Check uploaded_files is a list
+    if not isinstance(history["uploaded_files"], list):
+        logging.warning("Invalid history format: 'uploaded_files' is not a list")
+        return False
+        
+    # Check all files in the list exist
+    for file_path in history["uploaded_files"]:
+        if not os.path.exists(file_path):
+            logging.warning(f"File in history no longer exists: {file_path}")
+            # We don't return False here as files may have been moved/deleted
+    
+    return True
+
 def load_upload_history():
     """Load the upload history from the JSON file."""
     if os.path.exists(UPLOAD_HISTORY_FILE):
         try:
             with open(UPLOAD_HISTORY_FILE, 'r') as f:
-                return json.load(f)
+                history = json.load(f)
+                
+                # Validate the history structure
+                if not validate_upload_history(history):
+                    logging.warning("Creating new history due to validation failure")
+                    return {"version": 1, "last_run_timestamp": None, "uploaded_files": []}
+                
+                return history
         except json.JSONDecodeError:
             logging.warning(f"Error parsing {UPLOAD_HISTORY_FILE}. Starting with empty history.")
             return {"version": 1, "last_run_timestamp": None, "uploaded_files": []}
@@ -96,6 +130,7 @@ async def update_upload_history(file_path):
 
 async def upload_file(session, file_path, semaphore):
     """Upload a single file to the API."""
+    start_time = time.time()
     file_name = os.path.basename(file_path)
     file_ext = os.path.splitext(file_name)[1].lower()
 
@@ -135,12 +170,17 @@ async def upload_file(session, file_path, semaphore):
                 response_text = await response.text()
 
                 if response.status == 200:
-                    logging.info(f"Successfully uploaded {file_path}")
+                    end_time = time.time()
+                    upload_duration = round(end_time - start_time, 2)
+                    file_size = os.path.getsize(file_path) if os.path.exists(file_path) else 0
+                    logging.info(f"Successfully uploaded {file_path} ({file_size} bytes) in {upload_duration}s")
                     # Update history immediately after successful upload
                     await update_upload_history(file_path)
                     return {
                         "status": "success",
-                        "file_path": file_path
+                        "file_path": file_path,
+                        "file_size": file_size,
+                        "upload_duration": upload_duration
                     }
                 else:
                     file_size = os.path.getsize(file_path) if os.path.exists(file_path) else 0

@@ -28,3 +28,8 @@ ENV/
 
 # ignore scrapped data
 scraped_data/
+upload_log.txt
+upload_history.json
+upload_report.csv
+upload_stats.json
+upload_stats.log

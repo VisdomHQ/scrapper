@@ -133,7 +133,10 @@ def get_file_extension_details():
 def analyze_failures(failed_data):
     """Analyze the reasons for failures."""
     if not failed_data:
-        return {}
+        return {
+            'reason_counts': {},
+            'detailed_failures': []
+        }
     
     reasons = Counter()
     detailed_failures = []
@@ -142,12 +145,14 @@ def analyze_failures(failed_data):
         reason = item.get('reason', 'Unknown reason')
         file_path = item.get('file_path', 'Unknown file')
         response = item.get('response', '')
+        file_size = item.get('file_size', 0)
         
         reasons[reason] += 1
         detailed_failures.append({
             'file_path': file_path,
             'reason': reason,
-            'response': response
+            'response': response,
+            'file_size': file_size
         })
     
     return {
@@ -159,15 +164,20 @@ def generate_csv_report(stats, csv_file):
     """Generate a CSV report with all upload results."""
     with open(csv_file, 'w', newline='') as f:
         writer = csv.writer(f)
-        writer.writerow(['File Path', 'Status', 'Reason', 'Response'])
+        writer.writerow(['File Path', 'Status', 'Reason', 'Response', 'File Size (bytes)', 'Upload Duration (s)'])
         
         # Write successful uploads
         for file_path in stats['successful_files']:
-            writer.writerow([file_path, 'Success', '', ''])
+            # Get file size for successful uploads
+            file_size = os.path.getsize(file_path) if os.path.exists(file_path) else 0
+            # We don't have duration info from log file analysis, set to empty for existing records
+            writer.writerow([file_path, 'Success', '', '', file_size, ''])
         
         # Write skipped files
         for file_path in stats['skipped_files']:
-            writer.writerow([file_path, 'Skipped', 'Unsupported or image file', ''])
+            # Get file size for skipped files
+            file_size = os.path.getsize(file_path) if os.path.exists(file_path) else 0
+            writer.writerow([file_path, 'Skipped', 'Unsupported or image file', '', file_size, ''])
         
         # Write failed uploads with details
         for failure in stats['failure_analysis']['detailed_failures']:
@@ -175,7 +185,9 @@ def generate_csv_report(stats, csv_file):
                 failure['file_path'], 
                 'Failed', 
                 failure['reason'], 
-                failure['response']
+                failure['response'],
+                failure.get('file_size', 0),
+                failure.get('upload_duration', '')
             ])
 
 def generate_summary_file(stats, summary_file):
@@ -258,14 +270,14 @@ def main():
     # Analyze failures
     failure_analysis = analyze_failures(all_failed_data)
     
-    # Compile stats
+    # Compile stats (deduplicate successful files)
     stats = {
         'file_counts': file_counts,
         'supported_extensions': supported_extensions,
         'skip_extensions': skip_extensions,
-        'successful_files': all_successful,
+        'successful_files': list(dict.fromkeys(all_successful)),  # Remove duplicates while preserving order
         'failed_files': all_failed,
-        'skipped_files': all_skipped,
+        'skipped_files': list(dict.fromkeys(all_skipped)),  # Also deduplicate skipped files
         'failure_analysis': failure_analysis,
         'timestamp': datetime.now().isoformat()
     }
